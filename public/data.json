@@ -1,0 +1,42 @@
+[{
+  "name": "revenue",
+  "amount": 200000,
+  "categories": [
+    {
+      "name": "Tablet",
+      "amount": 120000
+    },
+    {
+      "name": "Smartphone",
+      "amount": 80000
+    }
+  ],
+  "historic": [
+    190000,
+    200000,
+    210000,
+    180000,
+    200000
+  ]
+},
+{
+  "name": "sells",
+  "amount": 200000,
+  "categories": [
+    {
+      "name": "Tablet",
+      "amount": 120000
+    },
+    {
+      "name": "Smartphone",
+      "amount": 80000
+    }
+  ],
+  "historic": [
+    190000,
+    200000,
+    210000,
+    180000,
+    200000
+  ]
+}]

@@ -1,0 +1,28 @@
+{
+  "name": "metrics-chart-widget",
+  "version": "1.0.0",
+  "description": "display metrics in nice donut charts",
+  "main": "index.html",
+  "scripts": {
+    "webpack": "webpack",
+    "start": "webpack-dev-server",
+    "test": "jest",
+    "watch": "jest --watch"
+  },
+  "dependencies": {
+    "@types/d3": "^5.7.1",
+    "d3": "^5.9.1",
+    "lit-element": "^2.0.1"
+  },
+  "author": "jmirallespaez@gmail.com",
+  "devDependencies": {
+    "@babel/polyfill": "^7.2.5",
+    "babel-loader": "^8.0.5",
+    "style-loader": "^0.23.1",
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.3.3333",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.2.1"
+  }
+}
