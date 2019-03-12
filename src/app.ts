@@ -1,11 +1,9 @@
 import { LitElement, html, customElement, property } from "lit-element";
-import { MetricService } from './services/MetricService';
-import { Metric } from './models/Metric';
-import { MetricTile } from './components/MetricTile';
-import { MetricChart } from './components/MetricChart';
+import { MetricService } from "./services/MetricService";
+import { Metric } from "./models/Metric";
+import { MetricWidget } from "./components/MetricWidget";
 
-
-@customElement('metrics-app')
+@customElement("metrics-app")
 class App extends LitElement {
   @property()
   metrics: Metric[] = [];
@@ -14,24 +12,35 @@ class App extends LitElement {
 
   constructor() {
     super();
-   this.metricsService.getMetrics().then(metrics => {
+    this.metricsService.getMetrics().then(metrics => {
       this.metrics = metrics;
       this.render();
-      console.log("METRICS=>", this.metrics)
+      console.log("METRICS=>", this.metrics);
     });
   }
   render() {
     return html`
-    <metric-chart></metric-chart>
-    ${this.metrics.map((m, i) => html`
-     <metric-tile
-     .metric="${m}">
-      </metric-tile>
-    `)}
+      <style>
+        .wrapper {
+          display: flex;
+          font-family: Arial;
+        }
+      </style>
+      <div class="wrapper">
+        ${this.metrics.map(
+          (m, i) => html`
+            ${this.metrics[i]
+              ? html`
+                  <metric-widget .metric="${this.metrics[i]}"></metric-widget>
+                `
+              : "loading"}
+          `
+        )}
+      </div>
     `;
   }
 }
 
-console.log(App)
-console.log(MetricTile)
-console.log(MetricChart)
+console.log(App);
+
+console.log(MetricWidget);

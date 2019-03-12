@@ -1,8 +1,9 @@
-import { LitElement, html, property, customElement } from 'lit-element';
-import { Metric } from '../models/Metric';
-import * as d3 from 'd3';
+import { LitElement, html, property, customElement } from "lit-element";
+import { Metric } from "../models/Metric";
+import * as d3 from "d3";
+import { MetricAmount } from "../models/MetricAmount";
 
-@customElement('metric-chart')
+@customElement("metric-chart")
 export class MetricChart extends LitElement {
   constructor() {
     super();
@@ -10,95 +11,58 @@ export class MetricChart extends LitElement {
   @property()
   metric: Metric;
 
-  firstUpdated() {
-    const svgElement = this.shadowRoot.querySelector("svg");
+  updated() {
+    if (!this.metric) return;
 
-    var data = [
-      {name: "USA", value: 40},
-      {name: "UK", value: 20},
-      {name: "Canada", value: 30},
-      {name: "Maxico", value: 10},
-    ];
-    var text = "";
-    
-    var width = 260;
-    var height = 260;
-    var thickness = 40;
-    
-    var radius = Math.min(width, height) / 2;
-    var color = d3.scaleOrdinal(d3.schemeCategory10);
-    
-    var svg = d3.select(svgElement)
-    .append('svg')
-    .attr('class', 'pie')
-    .attr('width', width)
-    .attr('height', height);
-    
-    var g = svg.append('g')
-    .attr('transform', 'translate(' + (width/2) + ',' + (height/2) + ')');
-    
-    var arc = d3.arc()
-    .innerRadius(radius - thickness)
-    .outerRadius(radius);
-    
-    let pie = d3.layout.pie();
-    .value((d: any) => d.value)
-    .sort(null);
-    
-    var path = g.selectAll('path')
-    .data(pie(data))
-    .enter()
-    .append("g")
-    .on("mouseover", function(d) {
-          let g = d3.select(this)
-            .style("cursor", "pointer")
-            .style("fill", "black")
-            .append("g")
-            .attr("class", "text-group");
-     
-          g.append("text")
-            .attr("class", "name-text")
-            .text(`${d.data.name}`)
-            .attr('text-anchor', 'middle')
-            .attr('dy', '-1.2em');
-      
-          g.append("text")
-            .attr("class", "value-text")
-            .text(`${d.data.value}`)
-            .attr('text-anchor', 'middle')
-            .attr('dy', '.6em');
-        })
-      .on("mouseout", function(d) {
-          d3.select(this)
-            .style("cursor", "none")  
-            .style("fill", color(this._current))
-            .select(".text-group").remove();
-        })
-      .append('path')
-      .attr('d', arc)
-      .attr('fill', (d,i) => color(i))
-      .on("mouseover", function(d) {
-          d3.select(this)     
-            .style("cursor", "pointer")
-            .style("fill", "black");
-        })
-      .on("mouseout", function(d) {
-          d3.select(this)
-            .style("cursor", "none")  
-            .style("fill", color(this._current));
-        })
-      .each(function(d, i) { this._current = i; });
-    
-    
-    g.append('text')
-      .attr('text-anchor', 'middle')
-      .attr('dy', '.35em')
-      .text(text);
+    const categories: any = this.metric.categories;
+    const total = this.metric.amount;
+    const ratio = categories[1].amount / <any>total;
+    const tau = 2 * Math.PI;
+    const svgElement = this.shadowRoot.getElementById("chart");
+    const name = this.metric.name.toUpperCase();
+    const amount = this.metric.amount.toString();
+    const arc = d3
+      .arc()
+      .innerRadius(90)
+      .outerRadius(100)
+      .startAngle(0);
+
+    const svg = d3.select(svgElement),
+      width = +svg.attr("width"),
+      height = +svg.attr("height"),
+      g = svg
+        .append("g")
+        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+    g.append("path")
+      .datum({ endAngle: tau })
+      .style("fill", categories[0].color)
+      .attr("d", arc);
+
+    g.append("path")
+      .datum({ endAngle: ratio * tau })
+      .style("fill", categories[1].color)
+      .attr("d", arc);
+
+    g.append("text")
+      .attr("dy", "0.5em")
+      .attr("y", "-20")
+      .style("text-anchor", "middle")
+      .attr("fill", "#36454f")
+      .attr("font-size", "20px")
+      .html(name);
+
+    g.append("text")
+      .attr("dy", "0.5em")
+      .style("text-anchor", "middle")
+      .attr("fill", "#36454f")
+      .attr("font-size", "30px")
+      .html(amount);
   }
 
   render() {
-     return html`
-     <svg width='360' height='200></svg>
-    `
+    return html`
+      <svg id="chart" width="250" height="200"></svg>
+    `;
   }
 }

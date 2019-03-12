@@ -1,4 +1,3 @@
-
 export interface MetricAmount {
-  amount: Number;
+  amount: number;
 }

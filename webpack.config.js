@@ -31,6 +31,7 @@ module.exports = {
   mode: "development",
   devtool: "cheap-module-eval-source-map",
   devServer: {
+    port: 8020,
     publicPath: "/",
     contentBase: path.join(__dirname, "public"),
     historyApiFallback: true,

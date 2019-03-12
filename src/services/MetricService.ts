@@ -1,10 +1,9 @@
-
 import { Metric } from "../models/Metric";
 
 export class MetricService {
   async getMetrics() {
-   const metrics: Metric[] = await this.fetch();
-   return metrics ? metrics : [];
+    const metrics: Metric[] = await this.fetch();
+    return metrics ? metrics : [];
   }
 
   fetch(): Promise<any> {
@@ -18,5 +17,4 @@ export class MetricService {
         });
     });
   }
-
 }

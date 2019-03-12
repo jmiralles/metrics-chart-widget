@@ -1,42 +1,67 @@
 [{
-  "name": "revenue",
-  "amount": 200000,
-  "categories": [
-    {
-      "name": "Tablet",
-      "amount": 120000
-    },
-    {
-      "name": "Smartphone",
-      "amount": 80000
-    }
-  ],
-  "historic": [
-    190000,
-    200000,
-    210000,
-    180000,
-    200000
-  ]
-},
-{
-  "name": "sells",
-  "amount": 200000,
-  "categories": [
-    {
-      "name": "Tablet",
-      "amount": 120000
-    },
-    {
-      "name": "Smartphone",
-      "amount": 80000
-    }
-  ],
-  "historic": [
-    190000,
-    200000,
-    210000,
-    180000,
-    200000
-  ]
-}]
+    "name": "revenue",
+    "amount": 200000,
+    "categories": [{
+        "name": "Tablet",
+        "amount": 150000,
+        "color": "#79d031"
+      },
+      {
+        "name": "Smartphone",
+        "amount": 50000,
+        "color": "#2e5612"
+      }
+    ],
+    "historic": [
+      190000,
+      200000,
+      210000,
+      180000,
+      200000
+    ]
+  },
+  {
+    "name": "impresions",
+    "amount": 200000,
+    "categories": [{
+        "name": "Tablet",
+        "amount": 120000,
+        "color": "#bae8f3"
+      },
+      {
+        "name": "Smartphone",
+        "amount": 80000,
+        "color": "#243f51"
+      }
+    ],
+    "historic": [
+      190000,
+      200000,
+      210000,
+      180000,
+      200000
+    ]
+  },
+  {
+    "name": "visits",
+    "amount": 250000,
+    "categories": [{
+        "name": "Tablet",
+        "amount": 170000,
+        "color": "#ecba1e"
+      },
+      {
+        "name": "Smartphone",
+        "amount": 80000,
+        "color": "#a5471b"
+      }
+    ],
+    "historic": [
+      190000,
+      200000,
+      210000,
+      180000,
+      200000
+    ]
+  }
+]

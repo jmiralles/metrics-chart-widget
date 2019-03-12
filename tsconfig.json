@@ -8,7 +8,7 @@
     "sourceMap": true,
     "experimentalDecorators": true,
     "strictNullChecks": false,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noImplicitAny": true
   }
 }
