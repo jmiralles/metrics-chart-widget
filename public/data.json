@@ -1,6 +1,7 @@
 [{
     "name": "revenue",
     "amount": 200000,
+    "type": "currency",
     "categories": [{
         "name": "Tablet",
         "amount": 150000,
@@ -23,6 +24,7 @@
   {
     "name": "impresions",
     "amount": 200000,
+    "type": "unit",
     "categories": [{
         "name": "Tablet",
         "amount": 120000,
@@ -45,6 +47,7 @@
   {
     "name": "visits",
     "amount": 250000,
+    "type": "unit",
     "categories": [{
         "name": "Tablet",
         "amount": 170000,

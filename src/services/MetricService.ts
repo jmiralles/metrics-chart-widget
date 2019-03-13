@@ -12,7 +12,7 @@ export class MetricService {
         .then(response => response.json())
         .then(data => resolve(data))
         .catch(error => {
-          console.error("Error retrieving data:", error);
+          console.error("Error retrieving data: ", error);
           reject();
         });
     });

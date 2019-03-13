@@ -8,5 +8,6 @@ export interface Metric {
   historic?: number[];
   ratio?: number;
   length?: number;
+  type?: string;
   categories?: Metric[];
 }

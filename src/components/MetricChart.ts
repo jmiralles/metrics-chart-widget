@@ -1,15 +1,15 @@
 import { LitElement, html, property, customElement } from "lit-element";
 import { Metric } from "../models/Metric";
 import * as d3 from "d3";
-import { MetricAmount } from "../models/MetricAmount";
 
 @customElement("metric-chart")
 export class MetricChart extends LitElement {
-  constructor() {
-    super();
-  }
+
   @property()
   metric: Metric;
+
+  @property()
+  formatter: any;
 
   updated() {
     if (!this.metric) return;
@@ -20,7 +20,23 @@ export class MetricChart extends LitElement {
     const tau = 2 * Math.PI;
     const svgElement = this.shadowRoot.getElementById("chart");
     const name = this.metric.name.toUpperCase();
-    const amount = this.metric.amount.toString();
+    const amount = this.formatter(this.metric.amount);
+    const data: any = this.metric.historic;
+    var m = [80, 80, 80, 80]; // margins
+		var w = 1000 - m[1] - m[3]; // width
+		var h = 400 - m[0] - m[2]; // height
+
+    var x_scale = d3.scaleLinear().domain([0, data.length]).range([0, w]);
+    var y_scale = d3.scaleLinear().domain([0, 10]).range([h, 0]);
+
+    var line = d3.line()
+			.x((d,i) => { 
+				return x_scale(i); 
+			})
+			.y((d: any) => { 
+				return y_scale(d); 
+			})
+    
     const arc = d3
       .arc()
       .innerRadius(90)
@@ -46,23 +62,36 @@ export class MetricChart extends LitElement {
 
     g.append("text")
       .attr("dy", "0.5em")
-      .attr("y", "-20")
+      .attr("y", "-27")
       .style("text-anchor", "middle")
-      .attr("fill", "#36454f")
+      .style("fill", "#888")
       .attr("font-size", "20px")
       .html(name);
 
     g.append("text")
       .attr("dy", "0.5em")
       .style("text-anchor", "middle")
-      .attr("fill", "#36454f")
+      .style("fill", "#333")
       .attr("font-size", "30px")
       .html(amount);
+  
+  
+    const graph = g.append("svg:svg")
+      .attr("width", w + m[1] + m[3])
+      .attr("height", h + m[0] + m[2])
+      .append("svg:g")
+      .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+
+
+    graph.append("svg:path")
+      .attr("dy", "0.5em")
+      .style("text-anchor", "middle")
+      .attr("d", line(data));
   }
 
   render() {
     return html`
-      <svg id="chart" width="250" height="200"></svg>
+      <svg id="chart" width="320" height="200"></svg>
     `;
   }
 }
