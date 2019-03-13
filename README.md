@@ -15,22 +15,15 @@ Run in dev mode
 running in localhost:8020
 
 Run test
-
 `npm run test`
 
 ## TODO
 
 - Add carroussel
 - Test
-- Line graph inside donut
-- check typography
+- Check typography
 - Add cardinals marks in donut
-- Chek html semantincs
+- Chek html semantics
 - Improve CSS
-- Refactor d3
 - Loading component
-- Check naming 
-- Device/Ctegory model?
-
-
-
+- Device/Category model?

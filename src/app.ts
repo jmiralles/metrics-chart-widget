@@ -1,7 +1,7 @@
 import { LitElement, html, customElement, property } from "lit-element";
 import { MetricService } from "./services/MetricService";
 import { Metric } from "./models/Metric";
-import  "./components/MetricWidget";
+import "./components/MetricWidget";
 
 @customElement("metrics-app")
 class App extends LitElement {
@@ -41,12 +41,15 @@ class App extends LitElement {
           (m, i) => html`
             ${this.metrics[i]
               ? html`
-                  <metric-widget class="widget" 
-                  .type="${this.metrics[i].type}" 
-                  .metric="${this.metrics[i]}">
+                  <metric-widget
+                    class="widget"
+                    .type="${this.metrics[i].type}"
+                    .metric="${this.metrics[i]}"
+                  >
                   </metric-widget>
                 `
-              : "loading..."}`
+              : "loading..."}
+          `
         )}
       </div>
     `;

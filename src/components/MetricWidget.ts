@@ -11,7 +11,7 @@ export class MetricWidget extends LitElement {
 
   @property()
   type: string;
-  
+
   get categories(): any {
     const categories = Array.from(this.metric.categories);
 
@@ -28,9 +28,9 @@ export class MetricWidget extends LitElement {
 
   getFormatter(type: string) {
     const typeMap: any = {
-      "currency": formatCurrency,
-      "unit": formatUnit
-    }
+      currency: formatCurrency,
+      unit: formatUnit
+    };
     return typeMap[type] || formatUnit;
   }
 
@@ -46,16 +46,18 @@ export class MetricWidget extends LitElement {
           text-align: right;
         }
       </style>
-      <metric-chart 
-      .formatter="${this.getFormatter(this.type)}" 
-      .metric="${this.metric}">
+      <metric-chart
+        .formatter="${this.getFormatter(this.type)}"
+        .metric="${this.metric}"
+      >
       </metric-chart>
       <div class="tile-wrapper">
-        <metric-tile 
+        <metric-tile
           class="tile"
-         .formatter="${this.getFormatter(this.type)}"
-         .metric="${this.categories[0]}">
-         </metric-tile>
+          .formatter="${this.getFormatter(this.type)}"
+          .metric="${this.categories[0]}"
+        >
+        </metric-tile>
         <metric-tile
           class="tile tile-left"
           .formatter="${this.getFormatter(this.type)}"

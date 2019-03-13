@@ -2,15 +2,14 @@
   "name": "metrics-chart-widget",
   "version": "1.0.0",
   "description": "display metrics in nice donut charts",
-  "main": "index.html",
+  "main": "public/index.html",
   "scripts": {
+    "build": "tsc",
+    "test": "nyc mocha test/*.ts -r esm -r jsdom-global/register",
     "webpack": "webpack",
-    "start": "webpack-dev-server",
-    "test": "jest",
-    "watch": "jest --watch"
+    "start": "webpack-dev-server"
   },
   "dependencies": {
-    "@types/d3": "^5.7.1",
     "d3": "^5.9.1",
     "lit-element": "^2.0.1",
     "numeral-es6": "^1.0.0"
@@ -18,13 +17,49 @@
   "author": "jmirallespaez@gmail.com",
   "devDependencies": {
     "@babel/polyfill": "^7.2.5",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/register": "^7.0.0",
+    "@open-wc/testing-helpers": "^0.7.22",
+    "@open-wc/testing-karma": "^0.4.14",
+    "@types/chai": "^4.1.7",
+    "@types/d3": "^5.7.1",
     "@types/d3-scale": "^2.1.1",
+    "@types/mocha": "^5.2.6",
+    "@types/numeral": "0.0.25",
     "babel-loader": "^8.0.5",
+    "chai": "^4.2.0",
+    "esm": "^3.2.16",
+    "jsdom": "14.0.0",
+    "jsdom-global": "3.0.2",
+    "mocha": "^6.0.2",
+    "mocha-typescript": "^1.1.17",
+    "nyc": "^13.3.0",
+    "source-map-support": "^0.5.11",
     "style-loader": "^0.23.1",
     "ts-loader": "^5.3.3",
+    "ts-mocha": "^6.0.0",
+    "ts-node": "^8.0.3",
     "typescript": "^3.3.3333",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.2.1"
+  },
+  "nyc": {
+    "check-coverage": true,
+    "lines": 80,
+    "statements": 80,
+    "functions": 80,
+    "branches": 80,
+    "include": [
+      "src/**/*.js"
+    ],
+    "exclude": [
+      "test/**/*.js"
+    ],
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ],
+    "all": true
   }
 }

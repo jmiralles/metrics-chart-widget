@@ -11,7 +11,7 @@ export class MetricTile extends LitElement {
 
   render() {
     return html`
-    <style>
+      <style>
         .tile-wrapper {
           display: flex;
           margin: 0 20px;
@@ -36,8 +36,9 @@ export class MetricTile extends LitElement {
       <div>
         <h3>${this.metric.name}</h3>
         <p>
-        <span class="percentage">${this.metric.ratio * 100}%</span>
-        <span class="amount">${this.formatter(this.metric.amount)}</span></p>
+          <span class="percentage">${this.metric.ratio * 100}%</span>
+          <span class="amount">${this.formatter(this.metric.amount)}</span>
+        </p>
       </div>
     `;
   }
