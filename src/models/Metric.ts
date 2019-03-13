@@ -5,7 +5,7 @@ export interface Metric {
   name: string;
   amount: number;
   color?: string;
-  historic?: number[];
+  historic?: any[];
   ratio?: number;
   length?: number;
   type?: string;

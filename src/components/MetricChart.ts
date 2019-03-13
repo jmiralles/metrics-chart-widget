@@ -4,39 +4,19 @@ import * as d3 from "d3";
 
 @customElement("metric-chart")
 export class MetricChart extends LitElement {
-
   @property()
   metric: Metric;
 
   @property()
   formatter: any;
 
-  updated() {
-    if (!this.metric) return;
-
+  drawDonut(svgElement: any) {
+    const tau = 2 * Math.PI;
     const categories: any = this.metric.categories;
     const total = this.metric.amount;
     const ratio = categories[1].amount / <any>total;
-    const tau = 2 * Math.PI;
-    const svgElement = this.shadowRoot.getElementById("chart");
-    const name = this.metric.name.toUpperCase();
     const amount = this.formatter(this.metric.amount);
-    const data: any = this.metric.historic;
-    var m = [80, 80, 80, 80]; // margins
-		var w = 1000 - m[1] - m[3]; // width
-		var h = 400 - m[0] - m[2]; // height
-
-    var x_scale = d3.scaleLinear().domain([0, data.length]).range([0, w]);
-    var y_scale = d3.scaleLinear().domain([0, 10]).range([h, 0]);
-
-    var line = d3.line()
-			.x((d,i) => { 
-				return x_scale(i); 
-			})
-			.y((d: any) => { 
-				return y_scale(d); 
-			})
-    
+    const name = this.metric.name.toUpperCase();
     const arc = d3
       .arc()
       .innerRadius(90)
@@ -74,23 +54,101 @@ export class MetricChart extends LitElement {
       .style("fill", "#333")
       .attr("font-size", "30px")
       .html(amount);
-  
-  
-    const graph = g.append("svg:svg")
-      .attr("width", w + m[1] + m[3])
-      .attr("height", h + m[0] + m[2])
-      .append("svg:g")
-      .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+  }
 
+  appendCircle(selection: any) {
+    const radius = 85;
 
-    graph.append("svg:path")
-      .attr("dy", "0.5em")
-      .style("text-anchor", "middle")
-      .attr("d", line(data));
+    selection
+      .append("circle")
+      .attr("cx", 83)
+      .attr("cy", -21)
+      .attr("r", radius);
+  }
+
+  drawLineChart(svgElement: any) {
+    const data: any[] = this.metric.historic;
+    const margin = { top: 30, right: 20, bottom: 30, left: 77 },
+      width = 265 - margin.left - margin.right,
+      height = 170 - margin.top - margin.bottom;
+
+    const x = d3.scaleTime().range([0, width]);
+    const y = d3.scaleLinear().range([height, 0]);
+    const svg = d3
+      .select(svgElement)
+      .append("svg")
+      .attr("y", "90")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    const valueline = d3
+      .line()
+      .x((d: any) => x(d.date))
+      .y((d: any) => y(d.close));
+
+    const area = d3
+      .area()
+      .x((d: any) => x(d.date))
+      .y0(height)
+      .y1((d: any) => y(d.close));
+
+    data.forEach((d: any) => {
+      const key = Object.keys(d)[0];
+      const value = Object.values(d)[0];
+
+      d.date = new Date(key);
+      d.close = +value;
+      delete d[key];
+    });
+
+    x.domain(d3.extent(data, (d: any) => d.date));
+    y.domain([0, d3.max(data, (d: any) => d.close)]);
+
+    svg
+      .append("clipPath")
+      .attr("id", "circle-clip")
+      .call(this.appendCircle);
+
+    svg
+      .append("path")
+      .attr("class", "line")
+      .attr("d", valueline(data))
+      .attr("clip-path", "url(#circle-clip)");
+
+    svg
+      .append("path")
+      .data([data])
+      .attr("class", "area")
+      .attr("d", area)
+      .attr("clip-path", "url(#circle-clip)");
+  }
+
+  updated() {
+    if (!this.metric) return;
+
+    const svgElement = this.shadowRoot.getElementById("chart");
+    this.drawLineChart(svgElement);
+    this.drawDonut(svgElement);
   }
 
   render() {
     return html`
+      <style>
+        .line {
+          stroke: ${this.metric.color};
+          stroke-width: 2;
+          fill: none;
+          stroke-linejoin: round;
+          stroke-miterlimit: 2;
+          stroke-linecap: round;
+        }
+        .area {
+          fill: ${this.metric.color};
+          opacity: 0.1;
+        }
+      </style>
       <svg id="chart" width="320" height="200"></svg>
     `;
   }
